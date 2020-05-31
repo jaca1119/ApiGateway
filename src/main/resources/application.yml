@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: prefixpath_route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/map
+          filters:
+            - RedirectTo=302, http://localhost:5000
