@@ -30,6 +30,9 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
       - run: 
           name: Update gradle
           command: ./gradlew wrapper --gradle-version=6.4.1 --distribution-type=bin
