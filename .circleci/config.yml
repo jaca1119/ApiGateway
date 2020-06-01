@@ -32,7 +32,7 @@ jobs:
             - v1-dependencies-
       - run: 
           name: Update gradle
-          command: sdk install gradle 6.4.1
+          command: ./gradlew wrapper --gradle-version=6.4.1 --distribution-type=bin
         
 
       - run: gradle dependencies
