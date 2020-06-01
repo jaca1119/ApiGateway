@@ -35,7 +35,9 @@ jobs:
           command: chmod +x ./gradlew
       - run: 
           name: Update gradle
-          command: ./gradlew wrapper --gradle-version=6.4.1 --distribution-type=bin
+          command: |
+            ./gradlew wrapper --gradle-version=6.4.1 --distribution-type=bin
+            ./gradlew tasks
         
 
       - run: gradle dependencies
