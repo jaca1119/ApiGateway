@@ -26,42 +26,41 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: ./gradlew test
   push_docker:
-    push_docker:
-      machine:
-        image: ubuntu-1604:201903-01
-      environment:
-        IMAGE_NAME=api_gateway
-      steps:
-        - checkout
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "build.gradle" }}
-              - v1-dependencies-
-        - run:
-            name: Update to Java11
-            command: |
-              sudo add-apt-repository ppa:openjdk-r/ppa
-              sudo apt-get update
-              sudo apt-get install openjdk-11-jdk
-              echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> $BASH_ENV
-        - run:
-            name: Set TAG env
-            command: echo 'export TAG=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
-        - run:
-            name: Gradle build
-            command: ./gradlew build
-        - run:
-            name: Build docker file
-            command: |
-              docker build -f Dockerfile -t jaca1119/$IMAGE_NAME:$TAG .
-              echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
-              docker push jaca1119/$IMAGE_NAME:$TAG
-        - add_ssh_keys:
-            fingerprints:
-              - $FINGERPRINT
-        - run:
-            name: Execute script
-            command: ssh $USER@$HOST "$COMMAND $IMAGE_NAME:$TAG $IMAGE_NAME 80 8080"
+    machine:
+      image: ubuntu-1604:201903-01
+    environment:
+      IMAGE_NAME=api_gateway
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run:
+          name: Update to Java11
+          command: |
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt-get update
+            sudo apt-get install openjdk-11-jdk
+            echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> $BASH_ENV
+      - run:
+          name: Set TAG env
+          command: echo 'export TAG=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
+      - run:
+          name: Gradle build
+          command: ./gradlew build
+      - run:
+          name: Build docker file
+          command: |
+            docker build -f Dockerfile -t jaca1119/$IMAGE_NAME:$TAG .
+            echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
+            docker push jaca1119/$IMAGE_NAME:$TAG
+      - add_ssh_keys:
+          fingerprints:
+            - $FINGERPRINT
+      - run:
+          name: Execute script
+          command: ssh $USER@$HOST "$COMMAND $IMAGE_NAME:$TAG $IMAGE_NAME 80 8080"
 
 workflows:
   test_and_push:
