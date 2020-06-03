@@ -47,6 +47,9 @@ jobs:
           name: Set TAG env
           command: echo 'export TAG=0.1.$CIRCLE_BUILD_NUM' >> $BASH_ENV
       - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      - run:
           name: Gradle build
           command: ./gradlew build
       - run:
