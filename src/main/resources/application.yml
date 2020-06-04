@@ -4,7 +4,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: prefixpath_route
+        - id: map route
           uri: lb://CORONA-MAP
           predicates:
             - Path=/
@@ -12,4 +12,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:1111/eureka/
+      defaultZone: ${DISCOVERY:http://localhost:1111/eureka}
