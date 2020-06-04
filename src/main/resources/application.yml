@@ -8,6 +8,10 @@ spring:
           uri: lb://CORONA-MAP
           predicates:
             - Path=/
+        - id: static map content
+          uri: lb://CORONA-MAP
+          predicates:
+            - PATH=/dist/**
 
 eureka:
   client:
