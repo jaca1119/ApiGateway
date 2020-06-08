@@ -63,7 +63,7 @@ jobs:
             - $FINGERPRINT
       - run:
           name: Execute script
-          command: ssh $USER@$HOST "$COMMAND $IMAGE_NAME:$TAG $IMAGE_NAME 80 8080"
+          command: ssh $USER@$HOST "$COMMAND $IMAGE_NAME:$TAG $IMAGE_NAME"
 
 workflows:
   test_and_push:
